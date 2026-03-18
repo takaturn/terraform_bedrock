@@ -1,0 +1,51 @@
+name: Claude Code Action (AWS Bedrock)
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned]
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  id-token: write        # OIDC認証に必要
+  contents: write        # コード変更・コミット
+  pull-requests: write   # PRレビュー・コメント
+  issues: write          # Issueコメント
+
+jobs:
+  claude-code-action:
+    # @claude メンションを含むコメントのみ実行
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || github.event.action == 'assigned'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: AWS認証 (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+          role-session-name: claude-code-action-${{ github.run_id }}
+
+      - name: Claude Code Action 実行
+        uses: anthropics/claude-code-action@beta
+        with:
+          # AWS Bedrock を使用
+          use_bedrock: "true"
+          # Claude 3.5 Haiku (コスパ重視・動作確認向け)
+          claude_model: "us.anthropic.claude-3-5-haiku-20241022-v1:0"
+          # GitHubトークン (自動提供)
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # タイムアウト設定 (分)
+          timeout_minutes: "20"
