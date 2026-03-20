@@ -87,27 +87,26 @@ resource "aws_iam_role_policy" "bedrock_invoke" {
         ]
         Resource = [
           # Claude 4.5 Haiku (動作確認向け・コスパ重視)
-          "arn:aws:bedrock:${var.aws_region}::foundation-model/anthropic.claude-haiku-4-5-20251001-v1:0",
-          "arn:aws:bedrock:::foundation-model/anthropic.claude-haiku-4-5-20251001-v1:0",
           "arn:aws:bedrock:${var.aws_region}:${data.aws_caller_identity.current.account_id}:inference-profile/*.anthropic.claude-haiku-4-5-20251001-v1:0",
+          "arn:aws:bedrock:*::foundation-model/anthropic.claude-haiku-4-5-20251001-v1:0",
 
           # Claude 4.5 Sonnet (将来の指定切り替え用に残す)
-          "arn:aws:bedrock:${var.aws_region}::foundation-model/anthropic.claude-sonnet-4-5-20250929-v1:0",
-          "arn:aws:bedrock:::foundation-model/anthropic.claude-sonnet-4-5-20250929-v1:0",
           "arn:aws:bedrock:${var.aws_region}:${data.aws_caller_identity.current.account_id}:inference-profile/*.anthropic.claude-sonnet-4-5-20250929-v1:0",
+          "arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-5-20250929-v1:0",
 
           # Claude 4.6 Sonnet (将来の指定切り替え用に残す)
-          "arn:aws:bedrock:${var.aws_region}::foundation-model/anthropic.claude-sonnet-4-6",
-          "arn:aws:bedrock:::foundation-model/anthropic.claude-sonnet-4-6",
           "arn:aws:bedrock:${var.aws_region}:${data.aws_caller_identity.current.account_id}:inference-profile/*.anthropic.claude-sonnet-4-6",
+          "arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-6",
         ]
       },
       {
         Sid    = "BedrockListModels"
         Effect = "Allow"
         Action = [
-          "bedrock:Get*",
-          "bedrock:List*"
+          "bedrock:GetFoundationModel",
+          "bedrock:GetInferenceProfile",
+          "bedrock:ListFoundationModels",
+          "bedrock:ListInferenceProfiles"
         ]
         Resource = "*"
       }

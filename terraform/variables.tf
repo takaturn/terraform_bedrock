@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "AWSリージョン"
   type        = string
-  default     = "us-east-1"
+  default     = "ap-northeast-1"
 }
 
 variable "github_org" {

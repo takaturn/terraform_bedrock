@@ -33,12 +33,9 @@ AWS Bedrock (Claude 3.5 Sonnet / Claude 3 Opus)
 > [!IMPORTANT]
 > 以下の情報を事前に確認・準備してください：
 > - **AWS アカウント ID** (Terraform変数として使用)
-> - **AWS リージョン** (Bedrock 利用可能リージョン推奨: `us-east-1` または `ap-northeast-1`)
+> - **AWS リージョン** (Bedrock 利用可能リージョン推奨: `ap-northeast-1`)
 > - **GitHub Org/Repo 名** (OIDC の Subject 制限に使用)
 > - **Bedrock のモデルアクセス申請** が完了しているか（Claude 3.5 Sonnet など）
-
-> [!WARNING]
-> `ap-northeast-1`（東京）では Bedrock で利用できる Claude モデルが限られます。Cross-Region Inference を使うか `us-east-1` などの利用を検討してください。
 
 ---
 
@@ -105,7 +102,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: us-east-1
+          aws-region: ap-northeast-1
       - uses: anthropics/claude-code-action@beta
         with:
           claude_model: "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
@@ -126,7 +123,7 @@ cd terraform && terraform init && terraform validate && terraform plan
 
 # AWS認証確認
 aws sts get-caller-identity
-aws bedrock list-foundation-models --region us-east-1
+aws bedrock list-foundation-models --region ap-northeast-1
 ```
 
 ### 手動確認

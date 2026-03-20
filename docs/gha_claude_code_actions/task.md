@@ -12,7 +12,6 @@
   - [x] `variables.tf` (変数定義)
   - [x] `outputs.tf` (出力値)
 - [x] Bedrock Model Accessの有効化確認
-  - [x] `us-east-1` または `us-west-2` で Claude 3.5 Haiku/Sonnet のアクセス許可を確認
 
 ## フェーズ3: GitHub Actions ワークフロー
 - [x] `.github/workflows/claude-code-action.yml` の作成
