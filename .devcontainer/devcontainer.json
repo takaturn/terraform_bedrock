@@ -10,7 +10,7 @@
   },
   "workspaceFolder": "/workspaces/terraform_bedrock",
   "mounts": [
-    "source=${localEnv:HOME}/.aws,target=/home/node/.aws,type=bind,consistency=cached",
+"source=${localEnv:HOME}/.aws,target=${containerUserHome}/.aws,type=bind,consistency=cached",
   ],
   // VS Code拡張機能
   "customizations": {
