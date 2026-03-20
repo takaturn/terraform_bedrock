@@ -3,6 +3,9 @@ data "aws_iam_openid_connect_provider" "github" {
   url = "https://token.actions.githubusercontent.com"
 }
 
+# 現在のAWSセッション情報を取得
+data "aws_caller_identity" "current" {}
+
 # 既存のOIDC Providerが無い場合は作成
 resource "aws_iam_openid_connect_provider" "github" {
   count = length(data.aws_iam_openid_connect_provider.github.arn) > 0 ? 0 : 1
@@ -81,10 +84,10 @@ resource "aws_iam_role_policy" "bedrock_invoke" {
         Resource = [
           # Claude 4.5 Haiku (動作確認向け・コスパ重視)
           "arn:aws:bedrock:${var.aws_region}::foundation-model/anthropic.claude-haiku-4-5-20251001-v1:0",
-          "arn:aws:bedrock:${var.aws_region}:*:inference-profile/us.anthropic.claude-haiku-4-5-20251001-v1:0",
+          "arn:aws:bedrock:${var.aws_region}:${data.aws_caller_identity.current.account_id}:inference-profile/us.anthropic.claude-haiku-4-5-20251001-v1:0",
           # Claude 4.6 Sonnet (将来の指定切り替え用に残す)
-          "arn:aws:bedrock:${var.aws_region}:*:foundation-model/anthropic.claude-sonnet-4-6",
-          "arn:aws:bedrock:${var.aws_region}:*:inference-profile/us.anthropic.claude-sonnet-4-6",
+          "arn:aws:bedrock:${var.aws_region}::foundation-model/anthropic.claude-sonnet-4-6",
+          "arn:aws:bedrock:${var.aws_region}:${data.aws_caller_identity.current.account_id}:inference-profile/us.anthropic.claude-sonnet-4-6",
         ]
       },
       {
