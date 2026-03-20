@@ -15,9 +15,21 @@
   },
   "workspaceFolder": "/workspaces/terraform_bedrock",
   "mounts": [
-    "source=${localEnv:HOME}/.aws,target=/home/node/.aws,type=bind,consistency=cached",
-    "source=${localEnv:HOME}/.ssh,target=/home/node/.ssh,type=bind,consistency=cached",
-    "source=${localEnv:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,consistency=cached"
+    {
+      "source": "${localEnv:HOME}/.aws",
+      "target": "/home/node/.aws",
+      "type": "bind"
+    },
+    {
+      "source": "${localEnv:HOME}/.ssh",
+      "target": "/home/node/.ssh",
+      "type": "bind"
+    },
+    {
+      "source": "${localEnv:HOME}/.gitconfig",
+      "target": "/home/node/.gitconfig",
+      "type": "bind"
+    }
   ],
   // VS Code拡張機能
   "customizations": {
