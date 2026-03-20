@@ -1,5 +1,5 @@
 output "iam_role_arn" {
-  description = "GitHub Actions用IAMロールのARN (GitHub SecretのAWS_ROLE_ARNに設定する)"
+  description = "GitHub Actions用IAMロールのARN (GitHub SecretのAWS_ROLE_TO_ASSUMEに設定する)"
   value       = aws_iam_role.github_actions_claude.arn
 }
 

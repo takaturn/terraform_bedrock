@@ -22,7 +22,7 @@ jobs:
             (github.event_name == 'issues' && contains(github.event.issue.body, '@claude'))
         runs-on: ubuntu-latest
         env:
-            AWS_REGION: us-east-1
+            AWS_REGION: ap-northeast-1
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
               uses: aws-actions/configure-aws-credentials@v4
               with:
                   role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-                  aws-region: us-east-1
+                  aws-region: ap-northeast-1
 
             - uses: anthropics/claude-code-action@v1
               with:
